@@ -1,5 +1,5 @@
 // Load environment variables early so imported modules see them
-import 'dotenv/config';
+import "dotenv/config";
 import express from "express";
 import serverless from "serverless-http";
 
