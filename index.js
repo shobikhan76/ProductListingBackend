@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+import serverless from "serverless-http";
 
-// Load environment variables FIRST before importing other modules
 dotenv.config();
 
 import { connectDB } from "./config/db.js";
@@ -27,15 +27,18 @@ import swaggerUi from "swagger-ui-express";
 
 const app = express();
 
-const PORT = process.env.PORT || 5000;
+// Connect DB ONCE for serverless
 connectDB();
+
+// Middlewares
 app.use(helmet());
 app.use(express.json());
 app.use(cors());
 app.use(morgan("combined"));
-
 app.use(hpp());
+app.use(xss());
 
+// Routes
 app.use("/api/auth", rateLimiter, authRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/category", categoryRoutes);
@@ -47,10 +50,13 @@ app.use("/api/admin/dashboard", adminDashboardRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/chat", chatRoutes);
+
 app.get("/", (req, res) => {
-  res.send("API is running...");
+  res.send("API is running on Vercel...");
 });
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+// 🚫 REMOVE app.listen()
+// ✅ EXPORT serverless handler
+export default serverless(app);
