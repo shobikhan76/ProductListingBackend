@@ -1,0 +1,168 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Hey there",
+        "Good morning",
+        "Good evening"
+      ],
+      "responses": [
+        "Hello! How can I help you today?",
+        "Hi there! What can I do for you?"
+      ],
+      "follow_up": null
+    },
+    {
+      "tag": "farewell",
+      "patterns": [
+        "Bye",
+        "Goodbye",
+        "See you later",
+        "Talk to you soon"
+      ],
+      "responses": [
+        "Goodbye! Have a great day!",
+        "See you later!"
+      ],
+      "follow_up": null
+    },
+    {
+      "tag": "delivery_status",
+      "patterns": [
+        "Where is my order?",
+        "Track my delivery",
+        "Order status",
+        "Has my package arrived?"
+      ],
+      "responses": [
+        "Can you provide your order ID so I can check the status?"
+      ],
+      "follow_up": {
+        "expected_entity": [
+          "order_id"
+        ],
+        "action": "lookup_order_status",
+        "response_template": "Your order with ID {{order_id}} is currently {{status}} and expected to arrive on {{delivery_date}}."
+      }
+    },
+    {
+      "tag": "product_search",
+      "patterns": [
+        "Show me laptops",
+        "I want to buy a phone",
+        "Do you have Nike shoes?",
+        "Search for cameras"
+      ],
+      "responses": [
+        "Sure! What category or brand are you looking for?"
+      ],
+      "entities": [
+        "product_name",
+        "category",
+        "brand"
+      ],
+      "follow_up": {
+        "expected_entity": [
+          "category",
+          "brand"
+        ],
+        "action": "search_products",
+        "response_template": "Here are some {{category}} from {{brand}} that match your search: {{product_list}}"
+      }
+    },
+    {
+      "tag": "product_comparison",
+      "patterns": [
+        "Compare iPhone and Samsung",
+        "Best laptop under $1000",
+        "Which phone is better?"
+      ],
+      "responses": [
+        "Let me show you a detailed comparison."
+      ],
+      "entities": [
+        "product_name",
+        "price_range",
+        "feature"
+      ],
+      "follow_up": {
+        "expected_entity": [
+          "product_name"
+        ],
+        "action": "compare_products",
+        "response_template": "Here’s a comparison between {{product1}} and {{product2}} based on features and reviews: {{comparison_table}}"
+      }
+    },
+    {
+      "tag": "refund_request",
+      "patterns": [
+        "I want a refund",
+        "Return my order",
+        "Refund process"
+      ],
+      "responses": [
+        "Please provide your order ID and reason for refund."
+      ],
+      "entities": [
+        "order_id",
+        "reason"
+      ],
+      "follow_up": {
+        "expected_entity": [
+          "order_id",
+          "reason"
+        ],
+        "action": "process_refund",
+        "response_template": "Your refund request for order {{order_id}} has been submitted. Status: {{refund_status}}"
+      }
+    },
+    {
+      "tag": "offers_discounts",
+      "patterns": [
+        "Any discounts?",
+        "Current offers",
+        "Promo codes available?",
+        "Deals today"
+      ],
+      "responses": [
+        "Here are the latest deals available for you: {{offer_list}}"
+      ],
+      "follow_up": null
+    },
+    {
+      "tag": "contact_support",
+      "patterns": [
+        "I need help",
+        "Contact support",
+        "Customer service",
+        "Talk to an agent"
+      ],
+      "responses": [
+        "You can reach support at support@example.com or call 123-456-7890."
+      ],
+      "follow_up": null
+    },
+    {
+      "tag": "feedback",
+      "patterns": [
+        "I want to give feedback",
+        "Rate your service",
+        "Submit my review",
+        "I have a complaint"
+      ],
+      "responses": [
+        "We value your feedback. Please tell us your experience."
+      ],
+      "follow_up": {
+        "expected_entity": [
+          "feedback_text"
+        ],
+        "action": "record_feedback",
+        "response_template": "Thank you for your feedback! You rated us: {{rating}}/5."
+      }
+    }
+  ]
+}
